@@ -1,0 +1,36 @@
+@baseUrl = http://localhost:3001
+
+### Gerar Token
+# @name login
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "username": "rei_luis17",
+  "password": "Password123"
+}
+
+### Token gerado
+@authToken = {{login.response.body.token}} 
+
+### Cadastrar Finance
+POST {{baseUrl}}/finance/insert
+Content-Type: application/json
+Token: {{authToken}}
+
+{
+  "bank_name": "Itau",
+  "count_type": "Poupança",
+  "holder_name": "Luis Santos",
+  "card_limit": "5.000"
+}
+
+### Listar todos os finance
+GET {{baseUrl}}/finance
+Accept: application/json
+Token: {{authToken}}
+
+### Retorna usuario passando o nome de titular como parametro
+GET {{baseUrl}}/finance/Luis Santos
+Accept: application/json
+Token: {{authToken}}
